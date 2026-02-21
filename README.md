@@ -1,4 +1,3 @@
-
 # Nimble Gravity Challenge
 
 This project implements the job application flow requested in the technical challenge.
@@ -11,7 +10,7 @@ It allows a candidate to:
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 * **React**
 * **TypeScript**
@@ -20,7 +19,7 @@ It allows a candidate to:
 
 ---
 
-## 📦 Installation
+## Installation
 
 Clone the repository:
 
@@ -40,7 +39,7 @@ Run the development server:
 
 ---
 
-## 🔌 API Integration
+## API Integration
 
 The application integrates with the provided backend:
 
