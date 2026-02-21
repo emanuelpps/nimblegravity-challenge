@@ -4,3 +4,7 @@ export interface ApplyToJobRequest {
   candidateId: string;
   repoUrl: string;
 }
+
+export interface ApplyToJobResponse {
+  ok: boolean;
+}

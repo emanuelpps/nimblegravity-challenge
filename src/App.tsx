@@ -3,6 +3,7 @@ import { getCandidateByEmail } from "./api/candidate";
 import type { Candidate } from "./types/candidate";
 import type { Job } from "./types/job";
 import { getJobs } from "./api/jobs";
+import JobList from "./components/JobList";
 
 function App() {
   const [candidate, setCandidate] = useState<Candidate | null>(null);
@@ -31,33 +32,27 @@ function App() {
     fetchCandidate();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading)
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 rounded-full border-4 border-gray-200 border-t-indigo-600 animate-spin" />
+          <p className="text-sm text-gray-600 tracking-wide">
+            Loading opportunities...
+          </p>
+        </div>
+      </div>
+    );
+  if (error)
+    return (
+      <div className="w-full h-screen flex justify-center items-center text-red-500">
+        {error}
+      </div>
+    );
 
   return (
-    <div>
-      <h1>Candidate Info</h1>
-      {candidate && (
-        <div>
-          <p>
-            Name: {candidate.firstName} {candidate.lastName}
-          </p>
-          <p>Email: {candidate.email}</p>
-          <p>UUID: {candidate.uuid}</p>
-          <p>Candidate ID: {candidate.candidateId}</p>
-          <p>Application ID: {candidate.applicationId}</p>
-        </div>
-      )}
-      <h2>Job Info</h2>
-      {job && (
-        <ul>
-          {job.map((j) => (
-            <li key={j.id}>
-              {j.id}: {j.title}
-            </li>
-          ))}
-        </ul>
-      )}
+    <div className="w-full">
+      <JobList jobs={job} candidate={candidate!} />
     </div>
   );
 }
