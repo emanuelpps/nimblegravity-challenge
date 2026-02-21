@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { getCandidateByEmail } from "./api/candidate";
 import type { Candidate } from "./types/candidate";
+import type { Job } from "./types/job";
+import { getJobs } from "./api/jobs";
 
 function App() {
   const [candidate, setCandidate] = useState<Candidate | null>(null);
+  const [job, setJob] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -11,7 +14,9 @@ function App() {
     async function fetchCandidate() {
       try {
         const data = await getCandidateByEmail("emanuelpages.ps@gmail.com");
+        const jobData = await getJobs();
         setCandidate(data);
+        setJob(jobData);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message);
@@ -42,6 +47,16 @@ function App() {
           <p>Candidate ID: {candidate.candidateId}</p>
           <p>Application ID: {candidate.applicationId}</p>
         </div>
+      )}
+      <h2>Job Info</h2>
+      {job && (
+        <ul>
+          {job.map((j) => (
+            <li key={j.id}>
+              {j.id}: {j.title}
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
