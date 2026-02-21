@@ -2,6 +2,9 @@ import { useState } from "react";
 import type { Job } from "../types/job";
 import type { Candidate } from "../types/candidate";
 import { applyToJob } from "../api/candidate";
+import Input from "./Input";
+import Button from "./Button";
+import FeedbackMessage from "./FeedbackMessage";
 
 interface Props {
   job: Job;
@@ -19,8 +22,10 @@ export default function JobCard({ job, candidate }: Props) {
       setError("Please enter your repository URL");
       return;
     }
+
     setLoading(true);
     setError(null);
+
     try {
       await applyToJob({
         uuid: candidate.uuid,
@@ -48,29 +53,20 @@ export default function JobCard({ job, candidate }: Props) {
         <h2 className="text-xl font-semibold text-gray-800 tracking-tight">
           {job.title}
         </h2>
-        <input
-          type="text"
-          placeholder="https://github.com/your-user/your-repo"
+        <Input
           value={repoUrl}
-          onChange={(e) => setRepoUrl(e.target.value)}
-          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+          onChange={setRepoUrl}
+          placeholder="https://github.com/your-user/your-repo"
         />
-        <button
-          onClick={handleSubmit}
-          disabled={loading}
-          className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 text-sm font-medium text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg active:scale-[0.98] disabled:opacity-50 cursor-pointer"
-        >
-          {loading ? "Submitting..." : "Submit Application"}
-        </button>
-        {error && (
-          <p className="text-sm font-medium text-red-500 animate-fade-in">
-            {error}
-          </p>
-        )}
+        <Button onClick={handleSubmit} loading={loading}>
+          Submit Application
+        </Button>
+        {error && <FeedbackMessage message={error} type="error" />}
         {success && (
-          <p className="text-sm font-medium text-green-600 animate-fade-in w-full text-center">
-            Application sent successfully 🚀
-          </p>
+          <FeedbackMessage
+            message="Application sent successfully 🚀"
+            type="success"
+          />
         )}
       </div>
     </div>
