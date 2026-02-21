@@ -19,18 +19,16 @@ export default function JobCard({ job, candidate }: Props) {
       setError("Please enter your repository URL");
       return;
     }
-
     setLoading(true);
     setError(null);
-
     try {
       await applyToJob({
         uuid: candidate.uuid,
         candidateId: candidate.candidateId,
+        applicationId: candidate.applicationId,
         jobId: job.id,
         repoUrl,
       });
-
       setSuccess(true);
     } catch (err) {
       if (err instanceof Error) {
@@ -70,7 +68,7 @@ export default function JobCard({ job, candidate }: Props) {
           </p>
         )}
         {success && (
-          <p className="text-sm font-medium text-green-600 animate-fade-in">
+          <p className="text-sm font-medium text-green-600 animate-fade-in w-full text-center">
             Application sent successfully 🚀
           </p>
         )}
